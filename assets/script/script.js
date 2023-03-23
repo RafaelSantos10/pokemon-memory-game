@@ -2,6 +2,13 @@ const FRONT = "card_front";
 const BACK = "card_back";
 const CARD = "card";
 const ICON = "icon";
+
+let minute = 0;
+let second = 0;
+let millisecond = 0;
+
+let cron;
+
 const onePlayer = document.querySelector('.play1')
 const twoPlayer = document.querySelector('.play2')
 
@@ -9,7 +16,14 @@ onePlayer.addEventListener('click', initGame)
 twoPlayer.addEventListener('click', initGame)
 
 function startGame() {
+
 	initializeCards(game.creatCardsFromPokemons());
+
+setTimeout(() => {
+	startTimer()
+},[1700])
+
+	
 
 }
 
@@ -17,11 +31,22 @@ function initializeCards() {
 	let gameBoard = document.getElementById("gameboard");
 	gameBoard.innerHTML = ''
 
+
 	game.cards.forEach((card) => {
+
 		let cardElement = document.createElement('div');
 		cardElement.id = card.id;
 		cardElement.classList.add(CARD);
+		setTimeout(() => {
+			cardElement.classList.add('flip');
+
+			setTimeout(() => {
+				cardElement.classList.remove('flip');
+			},[1000])
+		},[700])
 		cardElement.dataset.icon = card.icon;
+
+
 
 		createCardContent(card, cardElement);
 
@@ -56,18 +81,17 @@ function createCardFace(face, card, element) {
 
 
 function flipCard() {
-				
+
 	if (game.setCard(this.id)) {
 		this.classList.add('flip')
-				
+
 		if (game.secondCard) {
 			if (game.checkMatch()) {
-			console.log(game.checkMatch())			
 				game.clearCard()
 				if (game.checkGameOver()) {
-                    let gameOverLayer = document.getElementById("gameover")
-                    gameOverLayer.style.display = 'flex'
-                }
+					let gameOverLayer = document.getElementById("gameover")
+					gameOverLayer.style.display = 'flex'
+				}
 			} else {
 				setTimeout(() => {
 					let firstCardView = document.getElementById(game.firstCard.id)
@@ -76,27 +100,89 @@ function flipCard() {
 					firstCardView.classList.remove('flip')
 					secondCardView.classList.remove('flip')
 					game.unflipCards()
-				}, 1000)				
+				}, 1000)
 			}
 		}
 	}
-	
+
 }
 
 function restart() {
-    game.clearCard();
-    startGame();
-    let gameOverLayer = document.getElementById("gameover");
-    gameOverLayer.style.display = 'none';
+	game.clearCard();
+	resetTimer()
+	startGame();
+
+
+	let gameOverLayer = document.getElementById("gameover");
+	gameOverLayer.style.display = 'none';
+
+	document.getElementById('minute').innerText = '00';
+	document.getElementById('second').innerText = '00';
 }
 
-function initGame(e){
-	
-	if(e.target.classList.contains("play1")){
+function initGame(e) {
+
+	if (e.target.classList.contains("play1")) {
 		startGame()
-	} else if(e.target.classList.contains("play2")){
+	} else if (e.target.classList.contains("play2")) {
 		console.log("two players")
 	}
 
+
+
 }
+
+
+function startTimer() {
+	pauseTimer();
+	cron = setInterval(() => { timer(); }, 10);
+}
+
+function pauseTimer() {
+	clearInterval(cron);
+}
+
+function resetTimer() {
+
+
+	minute = 0;
+	second = 0;
+	millisecond = 0;
+
+
+
+}
+
+function timer() {
+	if ((millisecond += 10) == 1000) {
+		millisecond = 0;
+		second++;
+	}
+	if (second == 60) {
+		second = 0;
+		minute++;
+	}
+	if (minute == 60) {
+		minute = 0;
+		hour++;
+	}
+
+	document.getElementById('minute').innerText = returnData(minute);
+	document.getElementById('second').innerText = returnData(second);
+
+	if (game.checkGameOver() === true) {
+		pauseTimer()
+
+		localStorage.setItem('seconds', second)
+		localStorage.setItem('minutes', minute)
+		document.querySelector('.minute').innerText = localStorage.getItem("minutes");
+		document.querySelector('.second').innerText = localStorage.getItem("seconds");
+	}
+
+}
+
+function returnData(input) {
+	return input > 10 ? input : `0${input}`
+}
+
 
