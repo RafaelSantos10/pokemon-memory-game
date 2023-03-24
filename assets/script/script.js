@@ -6,24 +6,36 @@ const ICON = "icon";
 let minute = 0;
 let second = 0;
 let millisecond = 0;
-
 let cron;
 
-const onePlayer = document.querySelector('.play1')
-const twoPlayer = document.querySelector('.play2')
+const start = document.querySelector('.play')
 
-onePlayer.addEventListener('click', initGame)
+
+const audioVictory = document.querySelector('.victory');
+const audioWelcome = document.querySelector('.welcome');
+const audioTheme = document.querySelector('.Theme');
+
+document.body.addEventListener('mousemove', () => {
+	let onHomeScreen = document.querySelector('.homeScreen')
+	if (onHomeScreen !== null) {
+		audioWelcome.play()
+
+	}
+})
+
+start.addEventListener('click', initGame)
 twoPlayer.addEventListener('click', initGame)
 
 function startGame() {
 
 	initializeCards(game.creatCardsFromPokemons());
 
-setTimeout(() => {
-	startTimer()
-},[1700])
 
-	
+	setTimeout(() => {
+		startTimer()
+	}, [1700])
+
+
 
 }
 
@@ -42,8 +54,8 @@ function initializeCards() {
 
 			setTimeout(() => {
 				cardElement.classList.remove('flip');
-			},[1000])
-		},[700])
+			}, [1000])
+		}, [800])
 		cardElement.dataset.icon = card.icon;
 
 
@@ -79,7 +91,6 @@ function createCardFace(face, card, element) {
 	element.appendChild(cardElementFace);
 }
 
-
 function flipCard() {
 
 	if (game.setCard(this.id)) {
@@ -89,6 +100,8 @@ function flipCard() {
 			if (game.checkMatch()) {
 				game.clearCard()
 				if (game.checkGameOver()) {
+					audioTheme.pause();
+					audioVictory.play();
 					let gameOverLayer = document.getElementById("gameover")
 					gameOverLayer.style.display = 'flex'
 				}
@@ -111,7 +124,8 @@ function restart() {
 	game.clearCard();
 	resetTimer()
 	startGame();
-
+	audioVictory.pause()
+	audioTheme.play()
 
 	let gameOverLayer = document.getElementById("gameover");
 	gameOverLayer.style.display = 'none';
@@ -121,17 +135,11 @@ function restart() {
 }
 
 function initGame(e) {
-
-	if (e.target.classList.contains("play1")) {
-		startGame()
-	} else if (e.target.classList.contains("play2")) {
-		console.log("two players")
-	}
-
-
-
+	
+	audioWelcome.pause();
+	audioTheme.play();
+	startGame()
 }
-
 
 function startTimer() {
 	pauseTimer();
@@ -173,10 +181,11 @@ function timer() {
 	if (game.checkGameOver() === true) {
 		pauseTimer()
 
-		localStorage.setItem('seconds', second)
-		localStorage.setItem('minutes', minute)
-		document.querySelector('.minute').innerText = localStorage.getItem("minutes");
+		localStorage.setItem('seconds', returnData(second))
+		localStorage.setItem('minutes', returnData(minute))
+		document.querySelector('.minute').innerText = localStorage.getItem("minutes")
 		document.querySelector('.second').innerText = localStorage.getItem("seconds");
+
 	}
 
 }
@@ -184,5 +193,3 @@ function timer() {
 function returnData(input) {
 	return input > 10 ? input : `0${input}`
 }
-
-
