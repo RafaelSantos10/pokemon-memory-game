@@ -24,7 +24,6 @@ document.body.addEventListener('mousemove', () => {
 })
 
 start.addEventListener('click', initGame)
-twoPlayer.addEventListener('click', initGame)
 
 function startGame() {
 
@@ -135,7 +134,7 @@ function restart() {
 }
 
 function initGame(e) {
-	
+
 	audioWelcome.pause();
 	audioTheme.play();
 	startGame()

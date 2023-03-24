@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="pt">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,37 +11,50 @@
 </head>
 
 <body>
-  <div class="songs">
-    <audio class="victory" src="./assets/songs/victory.mp3"></audio>
-    <audio class="welcome" loop src="./assets/songs/Welcome.mp3"></audio>
-    <audio class="Theme" loop src="./assets/songs/palletTownTheme.mp3"></audio>
-  </div>
-  <div class="timer">
-    <span id="minute">00</span>:<span id="second">00</span>
-  </div>
-
-  </div>
-  <div id="gameboard">
-    <section class="homeScreen">
-      <h1>Bem-vindo ao Jogo da memória Pokémon</h1>
-      <p>Um projeto criado para colocar em prática alguns dos meus conhecimentos,
-       fique a vontade para testar e, caso queira, entre em contato e me diga o que achou do projeto.
-      </p>
-      <div class="selectPlayers">
-        <button class="play">COMEÇAR</button>
-        
-      </div>
-    </section>
-  </div>
-
-  <div id="gameover">
-    <div class="restartText">
-      <h2>Parabéns, você completou o jogo!!</h2>
-      <p>você terminou em <span class="minute">00m</span> : <span class="second">00s</span></p>
+  <header>
+    <div class="songs">
+      <audio class="victory" src="./assets/songs/victory.mp3"></audio>
+      <audio class="welcome" loop src="./assets/songs/Welcome.mp3"></audio>
+      <audio class="Theme" loop src="./assets/songs/palletTownTheme.mp3"></audio>
     </div>
-    <button id="restart" onclick="restart()">Jogar Novamente</button>
-  </div>
-  
+    <div class="timer">
+      <span id="minute">00</span>:<span id="second">00</span>
+    </div>
+  </header>
+  <main>
+    </div>
+    <div id="gameboard">
+      <section class="homeScreen">
+        <h1>Bem-vindo ao Jogo da memória Pokémon</h1>
+        <p>Um projeto criado para colocar em prática alguns dos meus conhecimentos,
+          fique a vontade para testar e, caso queira, entre em contato e me diga o que achou do projeto.
+        </p>
+        <div class="selectPlayers">
+          <button class="play">COMEÇAR</button>
+
+        </div>
+      </section>
+    </div>
+    <div id="gameover">
+      <div class="restartText">
+        <h2>Parabéns, você completou o jogo!!</h2>
+        <p>você terminou em <span class="minute">00m</span> : <span class="second">00s</span></p>
+      </div>
+      <button id="restart" onclick="restart()">Jogar Novamente</button>
+    </div>
+  </main>
+  <footer>
+    <a href="https://www.linkedin.com/in/rafael-santos-17834a20b/" target="_blank" rel="noopener noreferrer">
+      <img src="./assets/img/linkedin.png" alt="linkedin">
+    </a>
+
+    <a href="https://github.com/RafaelSantos10/pokemon-memory-game" target="_blank" rel="noopener noreferrer">
+      <img src="./assets/img/github.png" alt="github">
+    </a>
+
+
+  </footer>
+
   <script src="assets/script/game.js" defer></script>
   <script src="assets/script/script.js" defer></script>
 
